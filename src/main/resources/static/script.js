@@ -18,8 +18,11 @@ function generatePlaylist() {
         return;
     }
 
-      fetch("/generatePlaylist",{
-          method: "post",
+        //요청을 보냈는데 현재 Fast Api controller 부분에서 CORS 설정을 해주지 않아서
+        //localhost:8080 -> localhost:8000의 요청이 차단  당하는 중.
+        fetch("http://localhost:8000/analyze/text/",{
+      // fetch("http://localhost:8000/generatePlaylist",{
+          method: "POST",
           headers: {
               "Content-Type": "application/json"
           },
@@ -27,8 +30,38 @@ function generatePlaylist() {
       })
           .then(response => response.json())
           .then(data =>{
-              document.getElementById("playlistResult").innerHTML =
-                  `추천 플레이리스트: <a href="${data.playlistUrl}" target="_blank">${data.playlistUrl}</a>`;
+
+              const playlistElement = document.getElementById("playlistResult");
+
+              // playlistResult가 null인지 확인
+              if (!playlistElement) {
+                  console.error("playlistResult 요소를 찾을 수 없습니다.");
+                  return;
+              }
+
+              // data.songs 배열이 있는지 확인
+              if (Array.isArray(data.songs)) {
+                  playlistElement.innerHTML = ""; // 기존 내용을 비움
+
+                  data.songs.forEach(song => {
+                      const songElement = document.createElement("div");
+                      songElement.innerHTML = `<strong>곡명:</strong> ${song.title} <br> <strong>아티스트:</strong> ${song.artist}`;
+
+                      // 각 노래를 playlistResult에 추가
+                      playlistElement.appendChild(songElement);
+                  });
+              } else {
+                  console.error("songs 배열이 없습니다.");
+              }
+              // document.getElementById("playlistResult").innerHTML =
+              //     `추천 플레이리스트: <a href="${data.playlistUrl}" target="_blank">${data.playlistUrl}</a>`;
+              // data.songs.forEach(song => {
+              //     const songElement = document.createElement("div");
+              //     songElement.innerHTML = `<strong>곡명:</strong> ${song.title} <br> <strong>아티스트:</strong> ${song.artist}`;
+              //
+              //     // 각 노래를 playlistResult에 추가
+              //     playlistElement.appendChild(songElement);
+              // });
           })
           .catch(error => {
               console.error("Error:", error);

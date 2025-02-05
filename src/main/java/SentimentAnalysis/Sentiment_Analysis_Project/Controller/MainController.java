@@ -22,7 +22,7 @@ public class MainController {
         String userInput = request.get("text");
 
         if (userInput == null || userInput.trim().isEmpty()) {
-            System.out.println("비어있음");
+
             //System.out.println("사용자 입력: " + userInput);
         }
         String playlistUrl = "qdwqd" + userInput;

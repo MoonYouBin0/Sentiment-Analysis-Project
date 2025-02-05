@@ -3,7 +3,17 @@ import shutil
 import uuid
 from app.sentiment_analysis import analyze_text_sentiment, analyze_image_sentiment
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 출처 허용 (필요한 경우 특정 출처만 허용할 수 있음)
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 HTTP 메소드 허용
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 @app.post("/analyze/text/")
 async def analyze_text(input_data: dict):
