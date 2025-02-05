@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">AI 음악 플레이리스트 추천</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 10px;
+            background: #ddd;
+            border: none;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background: #007BFF;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #playlistResult, #playlistResultImage {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎵 AI 기반 음악 플레이리스트 추천</h1>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'textTab')">입력 추천</button>
+        <button class="tab-button" onclick="openTab(event, 'imageTab')">이미지 추천</button>
+    </div>
+
+    <!-- 텍스트 입력 기반 추천 -->
+    <div id="textTab" class="tab-content active">
+        <h2>현재 상태 입력</h2>
+        <input type="text" id="userInput" placeholder="예: 기분이 우울해요">
+        <button onclick="generatePlaylist()">추천 받기</button>
+        <div id="playlistResult"></div>
+    </div>
+
+    <!-- 이미지 업로드 기반 추천 -->
+    <div id="imageTab" class="tab-content">
+        <h2>이미지 업로드</h2>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="generatePlaylistFromImage()">추천 받기</button>
+        <div id="playlistResultImage"></div>
+    </div>
+</div>
+
+<script th:src="@{/script.js}"></script>
+</body>
+</html>
